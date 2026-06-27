@@ -9,7 +9,7 @@ from pathlib import Path
 import joblib
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_absolute_error, r2_score
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
@@ -38,8 +38,10 @@ def main() -> None:
     model.fit(X_train, y_train)
 
     preds = model.predict(X_test)
-    print(f"R²  : {r2_score(y_test, preds):.3f}")
-    print(f"MAE : {mean_absolute_error(y_test, preds):.2f} workers")
+    rmse = mean_squared_error(y_test, preds) ** 0.5
+    print(f"R²   : {r2_score(y_test, preds):.3f}")
+    print(f"MAE  : {mean_absolute_error(y_test, preds):.2f} workers")
+    print(f"RMSE : {rmse:.2f} workers")
 
     joblib.dump({"model": model, "features": FEATURES}, MODEL_PATH)
     print(f"Saved model to {MODEL_PATH}")

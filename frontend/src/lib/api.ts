@@ -1,4 +1,4 @@
-const BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:8000";
+const BASE = (process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:8000").replace(/\/+$/, "");
 const TOKEN_KEY = "aws_token";
 
 export function getToken(): string | null {
